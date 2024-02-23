@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="img/cursor.png" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
+    <title>Catalog Book</title>
+</head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+}
+
+header {
+    background-color: #000000;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.card {
+    width: 300px;
+    border-radius: 8px;
+    background-color: #000000;
+    margin: 20px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    cursor:pointer;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card img {
+    width: 100%;
+    height: 80%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card h2 {
+    margin-top: 10px;
+    font-size: 1.5rem;
+    color: #dfdfdf;
+    text-align: center;
+}
+#search {
+    width: 30%; 
+    height: 25%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+#search:hover {
+    background-color: black;
+    color: #fff;
+}
+</style>
+<body>
+    <header>
+        <h1>Search Boooks</h1>
+        <input type="search" id="search" placeholder="Search for title or author.">
+    </header>
+    <div class="container">
+        <div class="card" data-title="Harry Potter" data-author="J. K. Rowling">
+            <img src="img/Harry.png" alt="Harry Potter">
+            <h2>Harry Potter</h2>
+        </div>
+        <div class="card" data-title="El Señor de los Anillos" data-author="J. R. R. Tolkien">
+            <img src="img/Señor.png" alt="El Señor de los Anillos">
+            <h2>El Señor de los Anillos</h2>
+        </div>
+        <div class="card" data-title="Juegos del Hambre" data-author="Suzanne Collins">
+            <img src="img/Juegos.png" alt="Juegos del Hambre">
+            <h2>Juegos del Hambre</h2>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card" data-title="Los Hornos de Hitler" data-author="Olga Lengyel">
+            <img src="img/Hitler.png" alt="Los Hornos de Hitler">
+            <h2>Los Hornos de Hitler</h2>
+        </div>
+        <div class="card" data-title="20 mil lenguas de viaje submarino" data-author="Julio Verne">
+            <img src="img/lenguas.png" alt="20 mil lenguas de viaje submarino">
+            <h2>20 mil lenguas de viaje submarino</h2>
+        </div>
+        <div class="card" data-title="Gravity Falls" data-author="Alex Hirsch">
+            <img src="img/Gravity.png" alt="Gravity Falls">
+            <h2>Gravity Falls</h2>
+        </div>
+    </div>
+</body>
+<script>
+    // Inicio de Service Worker
+   if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(function(registration) {
+                    console.log('Service Worker registrado con éxito:', registration);
+                })
+                .catch(function(error) {
+                    console.log('Error al registrar el Service Worker:', error);
+                });
+        }
+
+const searchInput = document.getElementById('search');
+const cards = document.querySelectorAll('.card');
+
+searchInput.addEventListener('input', function() {
+    const searchText = this.value.trim().toLowerCase();
+
+    cards.forEach(card => {
+        const title = card.dataset.title.toLowerCase();
+        const author = card.dataset.author.toLowerCase();
+        const titleMatch = title.includes(searchText);
+        const authorMatch = author.includes(searchText);
+
+        if (titleMatch || authorMatch) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+});
+
+</script>
+</html>
